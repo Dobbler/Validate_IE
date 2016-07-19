@@ -153,6 +153,12 @@ class Validate_IE
                                            '87'=>'/^087[0-9]{7}$/',
                                            '88'=>'/^088[0-9]{7}$/',
                                            '89'=>'/^089[0-9]{7}$/');
+        static $irishMobileAreasNoZero = array('83'=>'/^83[0-9]{7}$/',
+                                           '85'=>'/^85[0-9]{7}$/',
+                                           '86'=>'/^86[0-9]{7}$/',
+                                           '87'=>'/^87[0-9]{7}$/',
+                                           '88'=>'/^88[0-9]{7}$/',
+                                           '89'=>'/^89[0-9]{7}$/');
         static $irishMobileAreasVoiceMail = array('83'=>'/^0835[0-9]{7}$/',
                                            '85'=>'/^0855[0-9]{7}$/',
                                            '86'=>'/^0865[0-9]{7}$/',
@@ -201,6 +207,16 @@ class Validate_IE
             $prefix = substr($number, 1, 2);
             if (isset($irishMobileAreas[$prefix])) {
                 $regexp = $irishMobileAreas[$prefix];
+                if (preg_match($regexp, $number)) {
+                    return true;
+                }
+            }
+        }
+        //if number starts with 8 and has 9 digits, it's likely to be mobile number without the preceding 0
+        if (($requiredAreaCode) && ($len == 9)) {
+            $prefix = substr($number, 0, 2);
+            if (isset($irishMobileAreasNoZero[$prefix])) {
+                $regexp = $irishMobileAreasNoZero[$prefix];
                 if (preg_match($regexp, $number)) {
                     return true;
                 }
