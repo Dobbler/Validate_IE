@@ -185,8 +185,8 @@ class Validate_IE
         if (!ctype_digit($number)) {
             return false;
         }
-        //area code must start with the standard 0 or a 1 for 'other rates'.
-        if (($requiredAreaCode) && !(preg_match("(^[01][0-9]*$)", $number))) {
+        //area code must start with the standard 0 or a 1 for 'other rates' or an 8 for non-prefixed mobile.
+        if (($requiredAreaCode) && !(preg_match("(^[018][0-9]*$)", $number))) {
             return false;
         }
         //check special rate numbers
